@@ -67,6 +67,15 @@ module.exports = function(app, passport) {
     // =====================================
 
     app.get('/thegame', isLoggedIn, function(req, res){
+        res.render('timer.ejs')
+
+    })
+    // =====================================
+    // START chat ==========================
+    // =====================================
+
+    app.get('/thegame/:id', isLoggedIn, function(req, res){
+        res.render('chat.ejs')
 
     })
 };

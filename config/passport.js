@@ -58,7 +58,7 @@ module.exports = function(passport) {
             if (user) {
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
-
+    
                 // if there is no user with that email
                 // create the user
                 var newUser            = new User();
@@ -70,8 +70,9 @@ module.exports = function(passport) {
                 console.log(newUser)
                 // save the user
                 newUser.save(function(err) {
-                    if (err)
-                        throw err;
+                    if (err){
+                        console.log(err, 'for got name');
+                    }
                     return done(null, newUser);
                 });
             }

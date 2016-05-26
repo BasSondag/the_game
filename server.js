@@ -4,7 +4,7 @@
 // get all the tools we need
 var express  = require('express');
 var app      = express();
-
+var path 	 = require('path');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -33,7 +33,7 @@ app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secre
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
-
+app.set('views', path.join(__dirname, "./views"));
 
 // routes ======================================================================
 
@@ -43,6 +43,58 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport);     // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-app.listen(8080, function(){
+var server = app.listen(8080, function(){
 	console.log('The magic happens on port 8080');
+
+})
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	// sockets
+
+	var io = require('socket.io').listen(server);
+var users = {'/#GGAaHEs2RQX1C00rAAAB': 'bas'}
+var messages = []
+
+var user_excist = function(user){
+	for(var i in users){
+		if(user == users[i]){
+			return true;
+		}
+	}
+	return false;
+}
+
+io.sockets.on('connection', function (socket) {
+	console.log(users);
+
+	socket.emit('messages', messages)
+
+	var socketID = socket.id
+	socket.on('got_new_user', function(data){
+		console.log('the user is ' + data.name);
+		
+		
+
+		if(user_excist(data.name)=== true){
+			socket.emit('name_taken', {error: "this name is already taken"});
+		} else {
+			users[socketID]= data.name ;
+			console.log(users);
+			socket.emit('get_conversation', {current_user: data.name });
+			socket.broadcast.emit('new_login', {user: data.name})
+		}
+
+		
+	})
+
+	socket.on("message_send", function(data){
+		var user = data.user
+		console.log(data)
+		messages.push({name: data.user, message: data.message});
+		console.log(messages);
+		io.emit('messages', messages)
+	})
+
+
 })

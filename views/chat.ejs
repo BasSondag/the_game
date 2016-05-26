@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Goup Chat</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type ="text/javascript" src="./../socket.io/socket.io.js"></script>
+	<script>
+	$(document).ready(function(){
+		var socket = io.connect();
+		var current_user;
+		var url = window.location.pathname;
+		var name = url.substring(url.lastIndexOf('/') + 1);
+		
+		var user_name = function(){
+		
+
+		socket.emit('got_new_user', {name: name});
+		console.log(name)
+		}
+
+
+		user_name();
+
+		// socket.on('name_taken', function(data){
+		// 	$('#error').html(data.error);
+		// 	user_name();
+
+		// })
+		socket.on("messages", function(data){
+			console.log('this is message'+ data);
+			var message_line = ""
+
+			for(var i in data){
+				message_line += '<p>'+ data[i].name +': '+ data[i].message + '</p>'
+			}
+			console.log(message_line)
+			$("#conversation").html(message_line);	
+		})
+
+		socket.on("new_login", function(data){
+			console.log(data + "cool")
+			$('#error').html(data.user + " logged in")
+		})
+
+
+		socket.on("get_conversation", function(data){
+      		$("#error").html(""); //resetting the errormessage
+      		console.log(data)
+      		current_user = data.current_user;
+      	})
+      	
+
+      	$('#send').submit(function(){
+      		socket.emit('message_send', {
+      			message: $('#message').val(),
+      			user: current_user})
+      				return false;
+
+      	})
+      	
+	})
+
+
+	</script>
+
+</head>
+<body>
+<div class="container">
+	<div class="page-header text-center">
+        <h1><span class="fa fa-user"></span> Chat Page</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        <a href="/profile" class="btn btn-default btn-sm" >Back</a>
+    </div>
+
+	<h3 id="error"></h3>
+	<h3>Conversation Board</h3>
+	<div id="conversation"></div>
+		<form id="send">
+			<textarea id="message" rows='3' cols="90" ></textarea>
+			<br>
+			<br>
+			<input type="submit" value="send">
+
+		</form>
+</div>
+</body>
+</html>
