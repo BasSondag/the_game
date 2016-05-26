@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.1/angular.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+
+<style type="text/css">
+
+    body{
+        margin-top: 10px;
+        text-align: center;
+    }
+    .select-style {
+color: #011;
+  font-size: 3em;
+  text-align: center;
+  text-shadow: 0 0 3px #6cf;
+  border: none;
+  background: none;
+    overflow: hidden;
+}
+
+option{
+color: #011;
+  font-size: 3em;
+  text-align: center;
+  text-shadow: 0 0 3px #6cf;
+  border-radius: 25px;
+
+  background-color: red;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+iframe{
+    visibility: hidden;
+}
+/*.gameScreen{
+    border: 1px solid black;
+    padding: 10px;
+    width: 350px;
+    height: 300px;
+}*/
+@import url(http://fonts.googleapis.com/css?family=Orbitron:700);
+
+/* Stars 
+------------------------------------- */
+
+#space, .stars {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.stars {
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: zoom 5s infinite;
+  opacity: 0;
+}
+
+.stars:nth-child(1) {
+  background-position: 50% 50%;
+  animation-delay: 0s;
+}
+.stars:nth-child(2) {
+  background-position: 20% 60%;
+  animation-delay: 1s;
+}
+.stars:nth-child(3) {
+  background-position: -20% -30%;
+  animation-delay: 2s;
+}
+.stars:nth-child(4) {
+  background-position: 40% -80%;
+  animation-delay: 3s;
+}
+.stars:nth-child(5) {
+  background-position: -20% 30%;
+  animation-delay: 4s;
+}
+
+@keyframes zoom {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+    animation-timing-function: ease-in;
+  } 
+  85% {
+    opacity: 1;
+    transform: scale(2.8);
+    animation-timing-function: linear;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.5);
+  }
+}
+
+/* Demo syles 
+------------------------------------- */
+
+body {
+  background: #000;
+  font-family: 'Orbitron', sans-serif;
+}
+
+h1 {
+
+  color: #011;
+  font-size: 5em;
+  text-align: center;
+  text-shadow: 0 0 3px #6cf;
+}
+h1:first-line {
+  font-size: 200%;
+}
+    h2{
+  color: #011;
+  font-size: 5em;
+  text-align: center;
+  text-shadow: 0 0 3px #6cf;
+}
+p{
+      color: #011;
+  text-align: center;
+  text-shadow: 0 0 3px #6cf;
+}
+button{
+  color: #011;
+  font-size: 3em;
+  text-align: center;
+  text-shadow: 0 0 3px #6cf;
+  border-radius: 25px;
+  background: transparent;
+  border: 1px solid black;
+}
+button:hover{
+    border: 3px solid #011;
+    border-radius: 25px;
+  -webkit-transform:rotate(360deg);
+  -moz-transform:rotate(360deg);
+  -ms-transform:rotate(360deg);
+  -o-transform:rotate(360deg);
+  transform:rotate(360deg);
+
+}
+</style>
+<script type="text/javascript">
+    angular.module('TimerApp',[])
+  .controller('TimerCtrl', function($scope, $timeout, $window) {
+    $scope.dictionary = {Animals: [], Movies: ["Iron Man", "Gladiator"], Celebrities: [], Quotes: [], Music: [], Sports: [], Video_Games: [], Random: ['James Bond', 'Game of Thrones', 'Star Wars', 'Jurassic Park', 'Lion King', 'Family Guy', 'Shot Gun', "In N Out", "Spongebob Squarepants", "Star Trek"]}
+    $scope.counter = 1000;
+    // $scope.array = ['James Bond', 'Game of Thrones', 'Star Wars', 'Jurassic Park', 'Lion King', 'Family Guy', 'Shot Gun', "In N Out", "Spongebob Squarepants", "Star Trek"];
+    $scope.random = '';
+    $scope.grab_array = '';
+    $scope.correct = 0;
+    $scope.pass = 0;
+    $scope.array_correct = [];
+    $scope.array_pass = [];
+    $scope.selected_category = [];
+    $scope.array_value = [];
+    // actual timer method, counts down every second, stops on zero
+    $scope.onTimeout = function() {
+        if($scope.counter ===  0) {
+            $scope.$broadcast('timer-stopped', 0);
+            $timeout.cancel(mytimeout);
+            return;
+        }
+        $scope.counter--;
+        mytimeout = $timeout($scope.onTimeout, - 1000);
+    };
+  
+    $scope.startTimer = function() {
+        if($scope.selected_category == ''){
+            alert("Please select a category")
+            $window.location.reload();
+        }
+        console.log($scope.selected_category)
+        mytimeout = $timeout($scope.onTimeout,  - 1000);
+        $scope.grab_array = $scope.dictionary[$scope.selected_category]
+        console.log($scope.grab_array)
+        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array), 1)[0];
+
+
+    };
+
+    $scope.hideMe = function(){
+        console.log('hide the button');
+        $scope.hide();
+    }
+ 
+    // stops and resets the current timer
+    $scope.stopTimer = function() {
+        $scope.$broadcast('timer-stopped', $scope.counter);
+        $scope.counter = 60;
+        $timeout.cancel(mytimeout);
+    };
+
+    //reloads page
+    $scope.reloadRoute = function() {
+        $window.location.reload();
+    }
+
+    //count number correct
+    $scope.correctAnswer = function(){
+        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array), 1)[0];
+        $scope.array_correct.push($scope.random)
+        console.log($scope.array_correct + " added to correct array")
+        if($scope.random == null){
+            console.log("Empty Array")
+            alert("Game Over.  Total number correct was " + $scope.correct );
+            $scope.counter = "Game Over"
+            $timeout.cancel(mytimeout);
+        } else{
+            console.log("Slice n dice!")
+            console.log($scope.random)
+            $scope.correct += 1
+        }
+    }
+    $scope.pass = function(){
+        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array), 1)[0];
+        $scope.array_pass.push($scope.random)
+        console.log($scope.array_pass + " added to pass array")
+        if($scope.random == null){
+            console.log("Empty Array")
+            alert("Game Over.  Total number correct was " + $scope.correct );
+            $scope.counter = "Game Over";
+            $timeout.cancel(mytimeout);
+        } else{
+            console.log("Slice n dice!")
+            console.log($scope.random)
+        }
+    }
+    $scope.$on('timer-stopped', function(event, remaining) { 
+        if(remaining === 0) {
+            alert("Game Over.  Total number correct was " + $scope.correct );
+            $scope.counter = "Game Over";
+            $scope.random = ""
+            console.log('your time ran out!');
+        }
+    });
+  }); 
+</script>
+  <meta charset="utf-8">
+  <title>G Theory</title>
+</head>
+<body>
+<div id="space">
+  <div class="stars"></div>
+  <div class="stars"></div>
+  <div class="stars"></div>
+  <div class="stars"></div>
+  <div class="stars"></div>
+</div>
+    <div ng-app='TimerApp'>
+        <div id="space">
+<!--             <div class="stars"></div>
+            <div class="stars"></div>
+            <div class="stars"></div>
+            <div class="stars"></div>
+            <div class="stars"></div> -->
+            <div ng-controller="TimerCtrl">
+                <div class='title_screen' ng-show='!showDiv'>
+                    <h1><strong>Game Play</strong></h1>
+                    <h2>Select Category:</h2>
+                    <p><select ng-model='selected_category' class="select-style">
+                        <option ng-repeat="(key, value) in dictionary" value='{{key}}'>{{key}}</option>
+                    </select></p>
+                    <p><button  ng-click='showDiv=true; startTimer(selected_category)'>Press Start!</button></p>
+<!--                     <iframe width="854" height="480" src="https://www.youtube.com/embed/YQRFIVWAfiU?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe> -->
+                </div>
+                <div class='gameScreen' ng-show="showDiv">
+
+                    <h2><strong>{{random}}</strong></h2>
+                    {{emptyArray}}
+                    <h2>{{counter}}</h2>
+                    <button ng-click='correctAnswer()'>Correct</button>
+                    <button ng-click='pass()'>Pass</button>
+                    <p><strong>Correct Answers:</strong></p>
+                    <p ng-repeat='x in array_correct'>{{x}}</p> 
+                    <p>Total Correct: {{correct}}</p>
+                    <p><strong>Incorrect Answers:</strong></p>
+                    <p ng-repeat='y in array_pass'>{{y}}</p>
+                    <button ng-click='reloadRoute()'>Restart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
