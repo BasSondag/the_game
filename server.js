@@ -43,7 +43,7 @@ app.set('views', path.join(__dirname, "./views"));
 require('./app/routes.js')(app, passport);     // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
-var server = app.listen(8080, function(){
+var server = app.listen(8000, function(){
 	console.log('The magic happens on port 8080');
 
 })
