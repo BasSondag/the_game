@@ -23,11 +23,11 @@
 
 		user_name();
 
-		// socket.on('name_taken', function(data){
-		// 	$('#error').html(data.error);
-		// 	user_name();
+		socket.on('name_taken', function(data){
+			$('#error').html(data.error);
+			user_name();
 
-		// })
+		})
 		socket.on("messages", function(data){
 			console.log('this is message'+ data);
 			var message_line = ""
@@ -59,6 +59,12 @@
       				return false;
 
       	})
+
+  		socket.on('logout', function(data){
+			console.log('a user logged otu');
+			$('.new_user').html(data.message);
+		})
+
       	
 	})
 
