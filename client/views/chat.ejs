@@ -4,6 +4,8 @@
 	<title>Goup Chat</title>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type ="text/javascript" src="./../socket.io/socket.io.js"></script>
 	<script>
@@ -23,11 +25,11 @@
 
 		user_name();
 
-		// socket.on('name_taken', function(data){
-		// 	$('#error').html(data.error);
-		// 	user_name();
+		socket.on('name_taken', function(data){
+			$('#error').html(data.error);
+			user_name();
 
-		// })
+		})
 		socket.on("messages", function(data){
 			console.log('this is message'+ data);
 			var message_line = ""
@@ -59,6 +61,12 @@
       				return false;
 
       	})
+
+  		socket.on('logout', function(data){
+			console.log('a user logged otu');
+			$('.new_user').html(data.message);
+		})
+
       	
 	})
 
@@ -67,8 +75,9 @@
 	<style type="text/css">
 	@import url(http://fonts.googleapis.com/css?family=Orbitron:700);
 
-/* Stars 
-------------------------------------- */
+
+
+
 
 #space, .stars {
   overflow: hidden;
