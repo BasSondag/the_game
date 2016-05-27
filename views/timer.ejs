@@ -227,7 +227,8 @@ button:hover{
         mytimeout = $timeout($scope.onTimeout,  1000);
         $scope.grab_array = $scope.dictionary[$scope.selected_category]
         console.log($scope.grab_array)
-        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array), 1)[0];
+        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array.length), 1)[0];
+        console.log($scope.random);
 
 
     };
@@ -251,7 +252,8 @@ button:hover{
 
     //count number correct
     $scope.correctAnswer = function(){
-        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array), 1)[0];
+        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array.length), 1)[0];
+        console.log($scope.random);
         $scope.array_correct.unshift($scope.random)
         console.log($scope.array_correct + " added to correct array")
         if($scope.random == null){
@@ -266,7 +268,7 @@ button:hover{
         }
     }
     $scope.pass = function(){
-        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array), 1)[0];
+        $scope.random = $scope.grab_array.splice(Math.floor(Math.random() * $scope.grab_array.length), 1)[0];
         $scope.array_pass.unshift($scope.random)
         console.log($scope.array_pass + " added to pass array")
         if($scope.random == null){
@@ -323,7 +325,7 @@ button:hover{
                 <div class='gameScreen' ng-show="showDiv">
 
                     <h2><strong>{{random}}</strong></h2>
-                    {{emptyArray}}
+
                     <h2>{{counter}}</h2>
                     <button ng-click='correctAnswer()'>Correct</button>
                     <button ng-click='pass()'>Pass</button>
