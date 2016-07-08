@@ -73,6 +73,43 @@
 
 	</script>
 	<style type="text/css">
+
+
+ body {
+    margin-top: 10px;
+    text-align: center;
+}
+	.select-style {
+		color: #011;
+		font-size: 1em;
+		text-align: center;
+		text-shadow: 0 0 3px #6cf;
+		border : 1px solid #6cf;
+		background: none;
+		overflow: hidden;
+    }
+
+    option{
+		color: #011;
+		font-size: 3em;
+		text-align: center;
+		text-shadow: 0 0 3px #6cf;
+		border-radius: 25px;
+		background-color: red;
+    }
+
+    .select-style select:focus {
+        outline: none;
+    }
+    iframe{
+        visibility: hidden;
+    }
+    /*.gameScreen{
+        border: 1px solid black;
+        padding: 10px;
+        width: 350px;
+        height: 300px;
+    }*/
 	@import url(http://fonts.googleapis.com/css?family=Orbitron:700);
 
 
@@ -86,6 +123,10 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+#space {
+	background-color: #011;
 }
 
 .stars {
@@ -139,29 +180,71 @@
     transform: scale(3.5);
   }
 }
+
+
+    .well {
+        background-color: gray;
+        border: 3px solid #6cf;
+    }
+
+    .btn {
+        background-color: #000;
+        color: #6cf;
+        border: 3px solid #6cf;  
+    }
+
+    #message {
+    	border: 3px solid #6cf;
+    	border-radius: 3px;
+
+    }
+
+
 	</style>
 
 </head>
 <body>
-<div id="space">
+
 	<div class="container">
-		<div class="page-header text-center">
-	        <h1><span class="fa fa-user"></span> Chat Page</h1>
-	        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-	        <a href="/profile" class="btn btn-default btn-sm" >Back</a>
+		<div id="space">
+			<div class="stars"></div>
+            <div class="stars"></div>    
+            <div class="stars"></div>
+            <div class="stars"></div>
+            <div class="stars"></div>
+        </div>
+
+       
+		<div class="row text-center">
+			<div class="col-sm-12">
+				<div class="well">
+			        <h1><span class="fa fa-user"></span> Chat Page</h1>
+			        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+			        <a href="/profile" class="btn btn-default btn-sm" >Back</a>
+		        </div>
+	        </div>
 	    </div>
 
-		<h3 id="error"></h3>
-		<h3>Conversation Board</h3>
-		<div id="conversation"></div>
-			<form id="send">
-				<textarea id="message" rows='3' cols="90" ></textarea>
-				<br>
-				<br>
-				<input type="submit" value="send">
 
-			</form>
+	    <div class="row text-center">
+			<div class="col-sm-12">
+				<div class="well">
+					<h3 id="error"></h3>
+					<h3>Conversation Board</h3>
+					<div id="conversation"></div>
+					<form id="send">
+						<textarea id="message" rows='3' cols="90" ></textarea>
+						<br>
+						<br>
+						<button type="submit" class="btn btn-default btn-sm">
+				    		Send <i class="fa fa-comment-o fa-lg"></i>
+						</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		
 	</div>
-</div>
 </body>
 </html>

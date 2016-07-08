@@ -2,23 +2,181 @@
 <!doctype html>
 <html>
 <head>
-    <title>Node Authentication</title>
+    <title>The game</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <style>
         body        { padding-top:80px; }
+
+           <style>
+
+           body{
+                    margin-top: 10px;
+                    text-align: center;
+                }
+                .select-style {
+            color: #011;
+              font-size: 1em;
+              text-align: center;
+              text-shadow: 0 0 3px #6cf;
+              border : 1px solid #6cf;
+              background: none;
+                overflow: hidden;
+            }
+
+            option{
+            color: #011;
+              font-size: 3em;
+              text-align: center;
+              text-shadow: 0 0 3px #6cf;
+              border-radius: 25px;
+              background-color: red;
+            }
+
+            .select-style select:focus {
+                outline: none;
+            }
+            iframe{
+                visibility: hidden;
+            }
+            /*.gameScreen{
+                border: 1px solid black;
+                padding: 10px;
+                width: 350px;
+                height: 300px;
+            }*/
+            @import url(http://fonts.googleapis.com/css?family=Orbitron:700);
+
+            /* Stars 
+            ------------------------------------- */
+
+            #space, .stars {
+              overflow: hidden;
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              left: 0;
+              right: 0;
+
+            }
+
+            #space {
+                background-color: #011;
+            }
+
+            .stars {
+              background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+              background-repeat: repeat;
+              background-size: 200px 200px;
+              animation: zoom 5s infinite;
+              opacity: 0;
+            }
+
+            .stars:nth-child(1) {
+              background-position: 50% 50%;
+              animation-delay: 0s;
+            }
+            .stars:nth-child(2) {
+              background-position: 20% 60%;
+              animation-delay: 1s;
+            }
+            .stars:nth-child(3) {
+              background-position: -20% -30%;
+              animation-delay: 2s;
+            }
+            .stars:nth-child(4) {
+              background-position: 40% -80%;
+              animation-delay: 3s;
+            }
+            .stars:nth-child(5) {
+              background-position: -20% 30%;
+              animation-delay: 4s;
+            }
+
+            @keyframes zoom {
+              0% {
+                opacity: 0;
+                transform: scale(0.5);
+                animation-timing-function: ease-in;
+              } 
+              85% {
+                opacity: 1;
+                transform: scale(2.8);
+                animation-timing-function: linear;
+              }
+              100% {
+                opacity: 0;
+                transform: scale(3.5);
+              }
+            }
+                
+
+
+
+        body        { padding-top:80px; word-wrap:break-word; }
+
+        .well {
+            background-color: gray;
+            border: 3px solid #6cf;
+        }
+
+        .btn {
+            background-color: #000;
+            color: #6cf;
+            border: 3px solid #6cf;  
+        }
+
+        ul {
+            list-style: none;
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <div id="space">
+        <div class="stars"></div>
+        <div class="stars"></div>    
+        <div class="stars"></div>
+        <div class="stars"></div>
+        <div class="stars"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <div class="well">
+                <h1><span class="fa fa-lock"></span> The Game</h1>
 
-    <div class="jumbotron text-center">
-        <h1><span class="fa fa-lock"></span> Node Authentication</h1>
+                <p>Login or Register</p>
 
-        <p>Login or Register with:</p>
-
-        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
-        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+                <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
+                <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Register</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <div class="well">
+                <h1>What is The Game about</h1>
+                <p>this is a game to play with 2 or more people.
+                <br>One player needs to guess what the question is.
+                <br>While the others give desciptions and hints.
+                </p>
+                <h1>Rules</h1>
+                <ul>
+                    <li>Player one turns his face a way from the screen.</li>
+                    <li>The other players press start, while the timer is running they give hints ore descriptions.</li>
+                    <li>If player one  answer is correct, the other players press on the correct button.</li>
+                    <li>When Player one say pass the other players press the pass button.</li>
+                    <li>Afther the timmer runs out check the score and a other player becomes player one.</li>
+                </ul>
+                <p></p>
+            </div>
+        </div>
     </div>
 
 </div>
