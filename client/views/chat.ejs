@@ -1,101 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Goup Chat</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <title>The Game</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script type ="text/javascript" src="./../socket.io/socket.io.js"></script>
-	<script>
-	$(document).ready(function(){
-		var socket = io.connect();
-		var current_user;
-		var url = window.location.pathname;
-		var name = decodeURI(url.substring(url.lastIndexOf('/') + 1));
-		
-		var user_name = function(){
-		
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type ="text/javascript" src="./../socket.io/socket.io.js"></script>
+  <script>
+  $(document).ready(function(){
+    var socket = io.connect();
+    var current_user;
+    var url = window.location.pathname;
+    var name = decodeURI(url.substring(url.lastIndexOf('/') + 1));
 
-		socket.emit('got_new_user', {name: name});
-		console.log(name)
-		}
+    var user_name = function(){
+    
 
-
-		user_name();
-
-		socket.on('name_taken', function(data){
-			$('#error').html(data.error);
-			// user_name();
-
-		})
-		socket.on("messages", function(data){
-			console.log('this is message'+ data);
-			var message_line = ""
-
-			for(var i in data){
-				message_line += '<p>'+ data[i].name +': '+ data[i].message + '</p>'
-			}
-			console.log(message_line)
-			$("#conversation").html(message_line);	
-		})
-
-		socket.on("new_login", function(data){
-			console.log(data + "cool")
-			$('#error').html(data.user + " logged in")
-		})
+    socket.emit('got_new_user', {name: name});
+    console.log(name)
+    }
 
 
-		socket.on("get_conversation", function(data){
-      		$("#error").html(""); //resetting the errormessage
-      		console.log(data)
-      		current_user = data.current_user;
-      	})
-      	
+    user_name();
 
-      	$('#send').submit(function(){
-      		socket.emit('message_send', {
-      			message: $('#message').val(),
-      			user: current_user})
-      				return false;
+    socket.on('name_taken', function(data){
+      console.log(data, 'error')
+      $('#error').html(data.error);
+      // user_name();
 
-      	})
+    })
+    socket.on("messages", function(data){
+      console.log(data, 'start')
+      console.log('this is message'+ data);
+      var message_line = ""
 
-  		socket.on('logout', function(data){
-			console.log('a user logged otu');
-			$('.new_user').html(data.message);
-		})
+      for(var i in data){
+        message_line += '<p>'+ data[i].name +': '+ data[i].message + '</p>'
+      }
+      console.log(message_line)
+      $("#conversation").html(message_line);  
+    })
 
-      	
-	})
+    socket.on("new_login", function(data){
+      console.log(data + "cool")
+      $('#error').html(data.user + " logged in")
+    })
 
 
-	</script>
-	<style type="text/css">
+    socket.on("get_conversation", function(data){
+          $("#error").html(""); //resetting the errormessage
+          console.log(data)
+          current_user = data.current_user;
+        })
+        
+
+        $('#send').submit(function(){
+          socket.emit('message_send', {
+            message: $('#message').val(),
+            user: current_user})
+          $("#message").val("");
+              return false;
+
+        })
+
+      socket.on('logout', function(data){
+      console.log('a user logged otu');
+      $('.new_user').html(data.message);
+    })
+
+        
+  })
+
+
+  </script>
+  <style type="text/css">
 
 
  body {
     margin-top: 10px;
     text-align: center;
 }
-	.select-style {
-		color: #011;
-		font-size: 1em;
-		text-align: center;
-		text-shadow: 0 0 3px #6cf;
-		border : 1px solid #6cf;
-		background: none;
-		overflow: hidden;
+  .select-style {
+    color: #011;
+    font-size: 1em;
+    text-align: center;
+    text-shadow: 0 0 3px #6cf;
+    border : 1px solid #6cf;
+    background: none;
+    overflow: hidden;
     }
 
     option{
-		color: #011;
-		font-size: 3em;
-		text-align: center;
-		text-shadow: 0 0 3px #6cf;
-		border-radius: 25px;
-		background-color: red;
+    color: #011;
+    font-size: 3em;
+    text-align: center;
+    text-shadow: 0 0 3px #6cf;
+    border-radius: 25px;
+    background-color: red;
     }
 
     .select-style select:focus {
@@ -110,7 +113,7 @@
         width: 350px;
         height: 300px;
     }*/
-	@import url(http://fonts.googleapis.com/css?family=Orbitron:700);
+  @import url(http://fonts.googleapis.com/css?family=Orbitron:700);
 
 
 
@@ -126,7 +129,7 @@
 }
 
 #space {
-	background-color: #011;
+  background-color: #011;
 }
 
 .stars {
@@ -194,20 +197,20 @@
     }
 
     #message {
-    	border: 3px solid #6cf;
-    	border-radius: 3px;
+      border: 3px solid #6cf;
+      border-radius: 3px;
 
     }
 
 
-	</style>
+  </style>
 
 </head>
 <body>
 
-	<div class="container">
-		<div id="space">
-			<div class="stars"></div>
+  <div class="container">
+    <div id="space">
+      <div class="stars"></div>
             <div class="stars"></div>    
             <div class="stars"></div>
             <div class="stars"></div>
@@ -215,36 +218,36 @@
         </div>
 
        
-		<div class="row text-center">
-			<div class="col-sm-12">
-				<div class="well">
-			        <h1><span class="fa fa-user"></span> Chat Page</h1>
-			        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-			        <a href="/profile" class="btn btn-default btn-sm" >Back</a>
-		        </div>
-	        </div>
-	    </div>
+    <div class="row text-center">
+      <div class="col-sm-12">
+        <div class="well">
+              <h1><span class="fa fa-user"></span> Chat Page</h1>
+              <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+              <a href="/profile" class="btn btn-default btn-sm" >Back</a>
+            </div>
+          </div>
+      </div>
 
 
-	    <div class="row text-center">
-			<div class="col-sm-12">
-				<div class="well">
-					<h3 id="error"></h3>
-					<h3>Conversation Board</h3>
-					<div id="conversation"></div>
-					<form id="send">
-						<textarea id="message" rows='3' cols="90" ></textarea>
-						<br>
-						<br>
-						<button type="submit" class="btn btn-default btn-sm">
-				    		Send <i class="fa fa-comment-o fa-lg"></i>
-						</button>
+      <div class="row text-center">
+      <div class="col-sm-12">
+        <div class="well">
+          <h3 id="error"></h3>
+          <h3>Conversation Board</h3>
+          <div id="conversation"></div>
+          <form id="send">
+            <textarea id="message" rows='3' cols="90" ></textarea>
+            <br>
+            <br>
+            <button type="submit" class="btn btn-default btn-sm">
+                Send <i class="fa fa-comment-o fa-lg"></i>
+            </button>
 
-					</form>
-				</div>
-			</div>
-		</div>
-		
-	</div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
 </body>
 </html>
