@@ -13,7 +13,7 @@
 		var socket = io.connect();
 		var current_user;
 		var url = window.location.pathname;
-		var name = url.substring(url.lastIndexOf('/') + 1);
+		var name = decodeURI(url.substring(url.lastIndexOf('/') + 1));
 		
 		var user_name = function(){
 		
@@ -27,7 +27,7 @@
 
 		socket.on('name_taken', function(data){
 			$('#error').html(data.error);
-			user_name();
+			// user_name();
 
 		})
 		socket.on("messages", function(data){

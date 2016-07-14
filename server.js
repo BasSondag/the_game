@@ -54,9 +54,12 @@ var server = app.listen(8000, function(){
 	// sockets
 
 	var io = require('socket.io').listen(server);
-var users = {'/#GGAaHEs2RQX1C00rAAAB': 'bas'}
+var users = {}
 var messages = []
-
+if(users == {}){
+	messages = []
+	console.log('messages cleared')
+}
 var user_excist = function(user){
 	for(var i in users){
 		if(user == users[i]){
@@ -78,7 +81,15 @@ io.sockets.on('connection', function (socket) {
 		
 
 		if(user_excist(data.name)=== true){
-			socket.emit('name_taken', {error: "this name is already taken"});
+			var counter = 0
+			counter += 1
+			socket.emit('name_taken', {error: "this name is already taken, we added "+ counter+ " behind your name"});
+			data.name += counter
+			users[socketID]= data.name ;
+			console.log(users,'users');
+			socket.emit('get_conversation', {current_user: data.name });
+			socket.broadcast.emit('new_login', {user: data.name})
+
 		} else {
 			users[socketID]= data.name ;
 			console.log(users);
