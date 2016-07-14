@@ -53,13 +53,10 @@ var server = app.listen(8000, function(){
 
 	// sockets
 
-	var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server);
 var users = {}
 var messages = []
-if(users == {}){
-	messages = []
-	console.log('messages cleared')
-}
+
 var user_excist = function(user){
 	for(var i in users){
 		if(user == users[i]){
@@ -68,9 +65,21 @@ var user_excist = function(user){
 	}
 	return false;
 }
+var countUsers = function(){
+	var count = 0
+	for(var i in users){
+		count +=1
+		console.log(count, 'count')
+	}
+	return count
+}
 
 io.sockets.on('connection', function (socket) {
-	console.log(users);
+	console.log(users,'start');
+		if(countUsers() < 1){
+		messages = []
+		console.log('messages cleared')
+	}
 
 	socket.emit('messages', messages)
 
